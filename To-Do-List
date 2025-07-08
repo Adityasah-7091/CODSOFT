@@ -1,0 +1,96 @@
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+struct TaskItem {
+    string name;
+    bool status;
+
+    TaskItem(const string& n) : name(n), status(false) {}
+};
+
+void printMenu() {
+    cout << "\n--- Task Tracker ---\n";
+    cout << "1. Add a Task\n";
+    cout << "2. View All Tasks\n";
+    cout << "3. Mark Task as Done\n";
+    cout << "4. Delete a Task\n";
+    cout << "5. Exit\n";
+    cout << "Enter your choice (1-5): ";
+}
+
+void addTask(vector<TaskItem>& taskList) {
+    string taskName;
+    cout << "Enter task: ";
+    cin.ignore();
+    getline(cin, taskName);
+    taskList.emplace_back(taskName);
+    cout << "Task has been added.\n";
+}
+
+void displayTasks(const vector<TaskItem>& taskList) {
+    if (taskList.empty()) {
+        cout << "Task list is empty.\n";
+        return;
+    }
+    cout << "\nCurrent Tasks:\n";
+    for (size_t i = 0; i < taskList.size(); ++i) {
+        cout << i + 1 << ". " << taskList[i].name
+             << " [" << (taskList[i].status ? "Completed" : "Pending") << "]\n";
+    }
+}
+
+void markAsDone(vector<TaskItem>& taskList) {
+    displayTasks(taskList);
+    if (taskList.empty()) return;
+
+    int index;
+    cout << "Enter task number to mark as done: ";
+    cin >> index;
+    if (index >= 1 && index <= taskList.size()) {
+        taskList[index - 1].status = true;
+        cout << "Task marked as done.\n";
+    } else {
+        cout << "Invalid task number.\n";
+    }
+}
+
+void deleteTask(vector<TaskItem>& taskList) {
+    displayTasks(taskList);
+    if (taskList.empty()) return;
+
+    int index;
+    cout << "Enter task number to delete: ";
+    cin >> index;
+    if (index >= 1 && index <= taskList.size()) {
+        cout << "Deleted task: " << taskList[index - 1].name << "\n";
+        taskList.erase(taskList.begin() + index - 1);
+    } else {
+        cout << "Invalid task number.\n";
+    }
+}
+
+int main() {
+    vector<TaskItem> tasks;
+    int choice;
+
+    while (true) {
+        printMenu();
+        cin >> choice;
+
+        switch (choice) {
+            case 1: addTask(tasks); break;
+            case 2: displayTasks(tasks); break;
+            case 3: markAsDone(tasks); break;
+            case 4: deleteTask(tasks); break;
+            case 5:
+                cout << "Exiting Task Tracker.\n";
+                return 0;
+            default:
+                cout << "Please enter a number from 1 to 5.\n";
+        }
+    }
+}
+
