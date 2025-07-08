@@ -1,0 +1,45 @@
+#include <iostream>
+using namespace std;
+
+int main() {
+    double x, y, output;
+    char symbol;
+
+    cout << "Input first value: ";
+    cin >> x;
+
+    cout << "Choose operator (+ - * /): ";
+    cin >> symbol;
+
+    cout << "Input second value: ";
+    cin >> y;
+
+    switch (symbol) {
+        case '+':
+            output = x + y;
+            cout << "Answer: " << output << endl;
+            break;
+
+        case '-':
+            output = x - y;
+            cout << "Answer: " << output << endl;
+            break;
+
+        case '*':
+            output = x * y;
+            cout << "Answer: " << output << endl;
+            break;
+
+        case '/':
+            if (y != 0)
+                cout << "Answer: " << x / y << endl;
+            else
+                cout << "Cannot divide by zero." << endl;
+            break;
+
+        default:
+            cout << "Unsupported operation. Use +, -, *, or /." << endl;
+    }
+
+    return 0;
+}
